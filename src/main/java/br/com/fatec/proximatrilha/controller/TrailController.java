@@ -22,7 +22,7 @@ import br.com.fatec.proximatrilha.service.UserService;
 import br.com.fatec.proximatrilha.view.View;
 
 @RestController
-@RequestMapping("/trails")
+@RequestMapping({"/trails", "/"})
 public class TrailController {
 	
 	@Autowired
@@ -47,7 +47,7 @@ public class TrailController {
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//	@JsonView(View.Trail.class)
+	@JsonView(View.General.class)
 	public ResponseEntity<Trail> createTrail(@RequestBody final Trail trail) {
 		Trail trailCreated = trailService.create(trail);
 		userService.assignTrails(trailCreated);
