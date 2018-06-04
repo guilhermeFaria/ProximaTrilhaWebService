@@ -10,4 +10,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	
 	public List<User> findByNameContainsIgnoreCase(final String name);
 	
+	public User findByEmail(final String email);
+	
 }

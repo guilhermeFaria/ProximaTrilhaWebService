@@ -8,6 +8,8 @@ import br.com.fatec.proximatrilha.model.Authorization;
 
 public interface AuthorizationRepository extends CrudRepository<Authorization, Long> {
 
-	public List<Authorization> findByNameContainsIgnoreCase(final String name);
+	public List<Authorization> findByAuthorityContainsIgnoreCase(final String authority);
+	
+	public Authorization findTop1ByAuthorityContainsIgnoreCase(final String authority);
 	
 }

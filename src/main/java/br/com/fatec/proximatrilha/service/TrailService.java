@@ -1,7 +1,6 @@
 package br.com.fatec.proximatrilha.service;
 
 import java.util.Collection;
-
 import br.com.fatec.proximatrilha.model.Trail;
 
 public interface TrailService {
@@ -15,5 +14,5 @@ public interface TrailService {
 	public Trail update(final Long trailId, final Trail trail);
 
 	public void delete(final Long trailId);
-
+	
 }

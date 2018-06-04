@@ -2,6 +2,7 @@ package br.com.fatec.proximatrilha.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import br.com.fatec.proximatrilha.model.Authorization;
 
@@ -17,6 +18,10 @@ public interface AuthorizationService {
 
 	public void delete(final Long authorizationId);
 	
-	public List<Authorization> getByName(final String name); 
+	public List<Authorization> getByAuthority(final String authority);
+
+	public Collection<Authorization> searchAuthority(final String authority);
+
+	public Boolean existAuthority(final Set<Authorization> authoritys); 
 
 }

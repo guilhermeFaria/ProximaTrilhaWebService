@@ -1,6 +1,6 @@
 package br.com.fatec.proximatrilha.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import br.com.fatec.proximatrilha.view.View;
@@ -25,38 +25,37 @@ public class TrailDot {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TRAIL_DOT_ID")
-	@JsonView(View.Trail.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
 	private Long id;
 	
 	@Column(name="NAME", length=255, nullable=false)
-	@JsonView(View.Trail.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
 	private String name;
 	
 	@Column(name="DESCRIPTION", length=255, nullable=false)
-	@JsonView(View.Trail.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
 	private String description;
 
-	
 	@Column(name="LATITUDE", length=12, nullable=false)
-	@JsonView(View.Trail.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
 	private String latitude;
 	
 	@Column(name="LONGITUDE", length=12, nullable=false)
-	@JsonView(View.Trail.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
 	private String longitude;
 	
-	//TODO Add the field User and Trail
+	@ManyToOne
+	@JoinColumn(name="TRAIL_ID", nullable=false)
+	@JsonIgnore
+	private Trail trail;
+
+	@OneToMany(mappedBy="trailDot", fetch=FetchType.EAGER, targetEntity=Comment.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
+	private Set<Comment> comments;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="TRAIL_DOT_COMMENT",
-			joinColumns = { @JoinColumn(name="TRAIL_DOT_ID")},
-			inverseJoinColumns = { @JoinColumn(name="USER_ID"),
-					@JoinColumn(name="COMMENT_ID")})
-	private List<Comment> comments;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="MULTIMEDIA_ID")
-	private Multimedia multimedia;
+	@OneToMany(mappedBy="trailDot", fetch = FetchType.EAGER, targetEntity=Multimedia.class)
+	@JsonView({View.TrailDot.class, View.Trail.class, View.General.class})
+	private Set<Multimedia> multimedias;
 	
 	public Long getId() {
 		return id;
@@ -98,20 +97,27 @@ public class TrailDot {
 		this.longitude = longitude;
 	}
 	
-	public List<Comment> getComments() {
+	public Set<Comment> getComments() {
 		return comments;
 	}
 	
-	public void setComments(final List<Comment> comments) {
+	public void setComments(final Set<Comment> comments) {
 		this.comments = comments;
 	}
-
-	public Multimedia getMultimedia() {
-		return multimedia;
+	
+	public Set<Multimedia> getMultimedias() {
+		return multimedias;
 	}
 
-	public void setMultimedia(Multimedia multimedia) {
-		this.multimedia = multimedia;
+	public void setMultimedias(Set<Multimedia> multimedias) {
+		this.multimedias = multimedias;
 	}
 
+	public Trail getTrail() {
+		return trail;
+	}
+
+	public void setTrail(final Trail trail) {
+		this.trail= trail;
+	}
 }
