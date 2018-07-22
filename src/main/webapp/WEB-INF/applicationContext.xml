@@ -17,8 +17,9 @@
     <jpa:repositories base-package="br.com.fatec.proximatrilha.repository"/>
     
     <mvc:annotation-driven />
-
-    <!-- Datasource -->
+ 
+    <!-- Datasource With Mysql on local-->
+<!--
     <bean id="dataSource" 
          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -26,8 +27,18 @@
         <property name="username" value="root" />
         <property name="password" value="root" />
     </bean>
-    
-    <bean id="entityManagerFactory"
+ -->
+    <!-- Datasource with PostgreSQL on Heroku -->
+    <bean id="dataSource" 
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.postgresql.jdbc.Driver" />
+        <property name="url" 
+        	value="jdbc:postgresql://sisynayfiwafsv:d0a128d4352a113fd0f2e2bd1e1b32990f486b6cbef13ad4c51dd640a147d9d7@ec2-54-227-240-7.compute-1.amazonaws.com:5432/dckjvtrtigl9oj"/>
+        <property name="username" value="sisynayfiwafsv" />
+        <property name="password" value="d0a128d4352a113fd0f2e2bd1e1b32990f486b6cbef13ad4c51dd640a147d9d7" />
+    </bean>
+
+	<bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
         p:packagesToScan="br.com.fatec.proximatrilha.model"
         p:dataSource-ref="dataSource"
@@ -36,7 +47,8 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="false" />
                 <property name="showSql" value="true" />
-                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+                <!-- <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/> -->
+                <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
             </bean>
         </property>
     </bean>

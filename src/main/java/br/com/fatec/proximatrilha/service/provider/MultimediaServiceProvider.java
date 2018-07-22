@@ -112,4 +112,8 @@ public class MultimediaServiceProvider implements MultimediaService {
 		multimediaRepository.delete(multimedias);
 	}
 	
+	public void uploadArchive() {
+		
+	}
+	
 }
